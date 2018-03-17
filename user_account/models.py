@@ -1,5 +1,6 @@
 from datetime import timedelta
 from django.conf import settings
+from django.contrib.auth.hashers import make_password, check_password
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import Q
@@ -99,12 +100,36 @@ class User(AbstractBaseUser):
     @property
     def is_admin(self):
         return self.admin
+
     class Meta:
         db_table = "user"
+
+    def get_absolute_url(self):
+        return reverse("user_detail", kwargs={'pk': self.id})
+
+    def check_password(self, raw_password):
+        """
+        Return a boolean of whether the raw_password was correct. Handles
+        hashing formats behind the scenes.
+        """
+
+        def setter(raw_password):
+            self.set_password(raw_password)
+            # Password hash upgrades shouldn't be considered password changes.
+            self._password = None
+            self.save(update_fields=["password"])
+
+        return check_password(raw_password, self.password, setter)
+
+    def set_password(self, raw_password):
+        self.password = make_password(raw_password)
+        self._password = raw_password
 
     # @property
     # def is_active(self):
     #     return self.active
+
+
 # 用户激活邮箱
 """
 class EmailActivationQuerySet(models.query.QuerySet):
@@ -215,7 +240,6 @@ def pre_save_email_activation(sender, instance, *args, **kwargs):
 pre_save.connect(pre_save_email_activation, sender=EmailActivation)
 """
 
-
 # 用户创建触发 发送邮件信号
 """
 def post_save_user_create_reciever(sender, instance, created, *args, **kwargs):
@@ -236,4 +260,3 @@ class GuestEmail(models.Model):
         return self.email
         
 """
-

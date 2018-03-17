@@ -1,0 +1,77 @@
+<!DOCTYPE html>  {% load static %}
+<html lang="en">
+<head>
+    {% block title %}
+        <title>默认主页 - Program Manger</title>
+    {% endblock %}
+
+	<link rel="shortcut icon" href="{% static 'img/logo.png' %}" type="image/png" />
+
+
+    {% include "public/glob_css__.html" %}
+    {% block user_css_ %}  {% endblock %}
+    {% block page_css_plugin %}  {% endblock %}
+</head>
+
+  <body class="app sidebar-mini rtl">
+    <!-- Navbar-->
+    <header class="app-header">
+        <a class="app-header__logo" href="{% url 'index' %}">Program Manger</a>
+        <!-- Sidebar toggle button-->
+        <a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
+        
+      <!-- Navbar Right Menu-->
+      <ul class="app-nav">
+
+        <!-- 搜索框 -->
+          {% comment %}        <li class="app-search">
+          <input class="app-search__input" type="search" placeholder="Search">
+          <button class="app-search__button"><i class="fa fa-search"></i></button>
+        </li>{% endcomment %}
+          
+        <!--Notification Menu 通知-->
+        {% include 'public/__notification_menu.html' %}
+
+        <!-- User Menu 用户菜单-->
+        {% include 'public/__user_menu.html' %}
+
+      </ul>
+    </header>
+
+    <!-- Sidebar menu--> {#  左侧边菜单栏 #}
+    {% include 'public/__sidebar_menu.html'  %}
+
+    <main class="app-content">
+        <div class="app-title">
+            <div>
+                {% block app-title %}  {# 左边页面简介 #}
+                    <h1><i class="fa fa-dashboard"></i> Blank Page</h1>
+                    <p>Start a beautiful journey here</p>
+                {% endblock %}
+            </div>
+            <ul class="app-breadcrumb breadcrumb">
+                {% block app-breadcrumb %} {# 右边面包屑 #}
+                    <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+                    <li class="breadcrumb-item active"><a href="#">空白页</a></li>
+                {% endblock %}
+            </ul>
+        </div>
+        {% block content %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="tile">
+                        <div class="tile-body">空白页面内容</div>
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
+    </main>
+
+    {% include "public/glob_js__.html" %}
+
+    <!-- Page specific javascripts-->
+    {% block page_js_plugin %}   {#  页面引用js脚本   #} {% endblock %}
+    {% block user_js %}{# 用户自写javascript #} {% endblock %}
+
+  </body>
+</html>

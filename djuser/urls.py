@@ -15,16 +15,23 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+
 from django.views.generic import TemplateView
-from user_account.views import (RegisterView, LoginView)
+from user_account.views import (RegisterView, LoginView, IndexView, User_Detail_View, logout_fun, Changge_Password_View,
+                                User_List_View)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
-    url(r"^$", TemplateView.as_view(template_name="index.html"), name="index"),
+    url(r"^$", IndexView.as_view(), name="index"),
+
     url(r"^user/register/$", RegisterView.as_view(), name="register"),
     url(r"^user/login/$", LoginView.as_view(), name="login"),
-    url(r"^user/logout/$", RegisterView.as_view(), name="logout"),
+    url(r"^user/detail/(?P<pk>\d+)/$", User_Detail_View.as_view(), name="user_detail"),
+    url(r"^user/changepass/(?P<pk>\d+)/$", Changge_Password_View.as_view(), name="user_change_password"),
+    url(r"^user/list/$", User_List_View.as_view(), name="user_list"),
+    url(r"^user/logout/$", logout_fun, name="logout"),
+
+    url(r'^test/$', TemplateView.as_view(template_name='test.html'), name='test')
 
 ]
-

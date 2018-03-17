@@ -1,0 +1,134 @@
+{% extends 'public/base.html' %}   {% load static %}
+{% block title %}
+    <title>
+        用户详情 - Program Manger
+    </title>
+{% endblock title %}
+{% block page_css_plugin %}
+<link href="{% static 'vender/sweetalert2-7.15.1/sweetalert2.min.css' %}">
+{% endblock %}
+
+{% block page_js_plugin %}
+    <script src="{% static 'vender/sweetalert2-7.15.1/sweetalert2.all.min.js' %}"></script>
+{% endblock %}
+
+{% block app-title %}
+    <h1><i class="fa fa-user-o"></i> {{ request.user.email }}</h1>
+    <p>修改用户信息</p>
+{% endblock %}
+
+{% block app-breadcrumb %} {# 右边面包屑 #}
+    <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+    <li class="breadcrumb-item active"><a href="#">用户</a></li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="card text-center">
+                <div class="card-header">
+                    <ul class="nav nav-pills card-header-pills">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">个人信息</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'user_change_password' pk=user_obj.pk %}">修改密码</a>
+                        </li>
+                      
+                    </ul>
+                </div>
+
+                <div class="contenx__">
+                    <div class="tile col">
+
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped">
+                                <tbody>
+                                <tr class="text-left">
+                                    <td class="font-weight-bold text-success"><i class="fa fa-users"></i> 用户名</td>
+                                    <td>：{{ user_obj.user_name }}</td>
+                                    <td class="font-weight-bold text-success"><i class="fa fa-envelope-o"></i> 邮箱</td>
+                                    <td>：{{ user_obj.email }}</td>
+
+
+                                </tr>
+                                <tr class="text-left">
+                                    <td class="font-weight-bold text-success">密码</td>
+                                    <td>：*****</td>
+                                    <td class="font-weight-bold text-success">is_active</td>
+                                    <td>：{% if  user_obj.is_active %}是{% else %}否{% endif %}</td>
+                                </tr>
+                                <tr class="text-left">
+                                    <td class="font-weight-bold text-success">可登录admin</td>
+                                    <td>：{% if  user_obj.is_staff %}是{% else %}否{% endif %}</td>
+                                    <td class="font-weight-bold text-success">is admin</td>
+                                    <td>：{% if  user_obj.is_admin %}是{% else %}否{% endif %}</td>
+                                </tr>
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-primary" type="submit"
+                                ic-get-from="{% url 'user_detail' pk=user_obj.pk %}" ic-target=".result-containe">修改用户信息
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="clearix"></div>
+
+        <div class="col-12  result-containe" style="margin-top: 1%"></div>
+ 
+    </div>
+{% endblock %}
+
+
+{% block user_js %}
+    <script src="{% static 'js/intercooler-1.2.1.min.js' %}"></script>
+    <script type="application/javascript">
+        $(function () {
+
+            var result_containe_obj = $(".col-12.result-containe");    // 修改用户信息dvi
+
+            $(document).on('success.ic', function (evt, elt, data, textStatus, xhr, requestId) {
+              {% comment %}  console.log("success evt", evt);  // 事件
+                console.log("success elt", elt);         // 当前点检的节点class选择
+                console.log("success data", data);  // 返回的数据
+                console.log("success textStatus", textStatus);    // 成功状态码 简语
+                console.log("success xhr", xhr);      // status
+                console.log("success requestId", requestId);{% endcomment %}
+
+                if (xhr.status === 202) {
+
+                    swal({
+                        title: '修改用户信息成功',
+                        text: "",
+                        showConfirmButton: false,
+                        timer: 2000,
+                        onOpen: () => {
+                            swal.showLoading()
+                        }
+                    }).then(() => {
+                        result_containe_obj.html("");
+                        window.location.reload()
+                    });
+
+                }
+            });
+
+            $('.nav-link') .on('click',function () {
+
+                            $(".nav-item .nav-link").removeClass('active')  ;
+                            $(this).addClass('active')  ;
+
+            })
+        })
+    </script>
+{% endblock user_js %}

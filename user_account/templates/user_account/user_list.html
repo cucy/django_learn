@@ -1,0 +1,54 @@
+{% extends 'public/base.html' %}        {% load static %}
+{% block title %}
+    <title>
+        用户列表 - Program Manger
+    </title>
+{% endblock title %}
+
+{% block user_css_ %}  {% endblock %}
+{% block page_css_plugin %}  {% endblock %}
+
+{% block page_js_plugin %}{% endblock %}
+{% block user_js %} {% endblock %}
+
+{% block app-title %}
+    <h1><i class="fa fa-user-plus"> </i> 用户列表</h1>
+    <p>用户列表</p>
+{% endblock %}
+
+{% block app-breadcrumb %} {# 右边面包屑 #}
+    <li class="breadcrumb-item"><i class="fa fa-paste fa-lg"></i></li>
+    <li class="breadcrumb-item active"><a href="#">用户列表 </a></li>
+{% endblock %}
+
+
+{% block content %}
+    <div class="col-md-12">
+        <div class="tile">
+            <h3 class="tile-title">用户列表</h3>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>用户名</th>
+                        <th>邮箱</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user_obj in user_obj_list %}
+                        <tr>
+                            <td class="font-weight-bold text-success">{{ user_obj.email }}</td>
+                            <td><a href="{% url 'user_detail' pk=user_obj.pk %}"><i class="fa fa-user-circle"> </i> {{ user_obj.user_name }}</a></td>
+                      
+                        </tr>
+                    {% endfor %}
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
