@@ -41,4 +41,8 @@ urlpatterns = [
          name='password_reset_complete'),
     # 注册
     path('register/', views.register, name='register'),
+
+    # 扩展用户模型
+    path('edit/', views.edit, name='edit'),
+
 ]
