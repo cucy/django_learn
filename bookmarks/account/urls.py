@@ -36,7 +36,9 @@ urlpatterns = [
     path('reset/<uidb64>/<token>/',  # 邮件链接跳转到此页面
          auth_views.PasswordResetConfirmView.as_view(template_name="registration/password_reset_confirm1.html"),
          name='password_reset_confirm'),
-    path('reset/done/',   # 修改密码成功页面
+    path('reset/done/',  # 修改密码成功页面
          auth_views.PasswordResetCompleteView.as_view(template_name="registration/password_reset_complete1.html"),
          name='password_reset_complete'),
+    # 注册
+    path('register/', views.register, name='register'),
 ]
