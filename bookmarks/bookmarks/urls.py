@@ -23,6 +23,8 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
 
+    path('images/', include('images.urls', namespace='images')),
+
 ]
 
 if settings.DEBUG:
