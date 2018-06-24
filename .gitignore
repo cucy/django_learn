@@ -1,4 +1,5 @@
 # use glob syntax.
+00*.py
 syntax: glob
 *.pyc
 *~
